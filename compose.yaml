@@ -1,0 +1,26 @@
+services:
+  web_backend:
+    build:
+      context: ./backend
+      target: dev
+    ports:
+      - 8003:80
+    volumes:
+      - ./app:/app
+      - ./mock_storage:/mock_storage
+    networks:
+      - cactus_net
+    environment: &service_env
+      WORKERS_PER_CORE: "${WORKERS_PER_CORE}"
+      WEB_CONCURRENCY: "${WEB_CONCURRENCY}"
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://web/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 1s
+
+networks:
+  cactus_net:
+    name: cactus_network

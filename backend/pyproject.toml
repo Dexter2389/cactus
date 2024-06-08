@@ -1,0 +1,44 @@
+[tool.poetry]
+name = "cactus-backend"
+version = "0.1.0"
+description = "Cactus for Resynch"
+authors = ["Saurabh Ghanekar <ghanekarsaurabh8@gmail.com>"]
+license = "BSD-2-Clause"
+readme = "README.md"
+repository = "https://github.com/Dexter2389/cactus"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.12,<3.13"
+fastapi-slim = "^0.111.0"
+pydantic = "^2.4.2"
+uvicorn = "^0.29.0"
+gunicorn = "^22.0.0"
+aiofiles = "^23.2.1"
+aiohttp = "^3.9.5"
+python-multipart = "^0.0.9"
+twelvelabs = "^0.2.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.5.0"
+black = "^23.11.0"
+isort = "^5.12.0"
+flake8 = "^6.1.0"
+
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.3"
+pytest-cov = "^4.1.0"
+
+
+[tool.versioning.files]
+version_variable = ["app/app/__init__.py:__version__"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
