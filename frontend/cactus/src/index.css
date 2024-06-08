@@ -1,0 +1,14 @@
+:root {
+  --headings: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  --paragraphs: Inter, sans-serif;
+  --gradient-01: #111932;
+  --gradient-02: #070b18;
+  --royal-blue: #0266ff;
+}
+body {
+  font-family: var(--headings);
+  color: #fff;
+  background-color: #000;
+  font-size: 14px;
+  line-height: 1.2;
+}
