@@ -4,11 +4,11 @@ import aiofiles
 from contextlib import asynccontextmanager
 
 from fastapi import APIRouter, FastAPI, UploadFile
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 from starlette.middleware import Middleware
 from starlette.middleware.cors import CORSMiddleware
 
-from app.models import ServerMessageResponse
+from app.models import ServerMessageResponse, GenerateResponse
 
 from app.logger_utils import setup_logging
 
@@ -80,9 +80,12 @@ async def upload_file(file: UploadFile):
     return ServerMessageResponse(message=f"File uploaded successfully!")
 
 
-@app.post("/generate", response_model=ServerMessageResponse, status_code=200)
+@app.post("/generate", status_code=200)
 async def generate():
-    return
+    return {
+        "generate_response": GenerateResponse(),
+        "reel_file": FileResponse("reel.mp4", media_type="video/mp4"),
+    }
 
 
 app.include_router(router)

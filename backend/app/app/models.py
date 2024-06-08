@@ -1,3 +1,4 @@
+from typing import List
 from pydantic import BaseModel
 
 
@@ -6,4 +7,6 @@ class ServerMessageResponse(BaseModel):
 
 
 class GenerateResponse(BaseModel):
-    pass
+    title: str
+    itinerary: List[str]
+    hashtags: List[str]
