@@ -1,0 +1,20 @@
+.upload {
+    margin-top: 20px;
+    width: 400px;
+    height: 200px;
+    border-radius: 25px;
+    background: #f3f4f6;
+    background-size: 30%;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 3px dotted ;
+    border-color: #64748b;
+
+    /* flex */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.upload *{
+    color: #64748b;
+}

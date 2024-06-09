@@ -1,0 +1,25 @@
+.loadingSpinner {
+    margin: 0.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+.loadingSpinner__wrapper {
+    animation: rotate 2s linear infinite;
+    padding: 0.2rem;
+  }
+
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .loadingSpinner__img {
+    width: 100%;
+  }

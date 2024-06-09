@@ -1,0 +1,62 @@
+.summarizeVideo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    color: #f1f5f9;
+    background-color: transparent;  
+}
+
+.summarizeVideo__appTitle {
+    font-size: 50px;
+    font-weight: 500;
+}
+
+  .summarizeVideo__videoTitle {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: center;
+}
+
+  .summarizeVideo__warningMessageWrapper__warningMessage {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #F44336
+}
+
+.summarizeVideo__warningMessageWrapper {
+    display: flex;
+    align-items: center; /* Align items vertically */
+  }
+
+.summarizeVideo__uploadMessageWrapper {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    min-width: 20rem;
+    height: 3.4375rem;
+    padding: 0.3rem 0.75rem;
+    gap: 0.5rem;
+    border: 1px solid #006F33;
+    background: #FFEDEC;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.summarizeVideo__uploadMessageWrapper__message {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1 0 0;
+    align-self: stretch;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.25rem;
+}
