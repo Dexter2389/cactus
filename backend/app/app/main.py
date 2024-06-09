@@ -1,6 +1,8 @@
 import logging
 import os
 import aiofiles
+from pathlib import Path
+import json
 from contextlib import asynccontextmanager
 
 from fastapi import APIRouter, FastAPI, UploadFile
@@ -8,7 +10,16 @@ from fastapi.responses import JSONResponse, FileResponse
 from starlette.middleware import Middleware
 from starlette.middleware.cors import CORSMiddleware
 
-from app.models import ServerMessageResponse, GenerateResponse
+from app.generate_reel import (
+    fetch_video_title,
+    get_video_id_from_twelve_labs_index,
+    generate_segment_itinerary,
+    parse_segment_itinerary_into_json,
+    select_segments_of_interest,
+    stitch_segments_into_single_video,
+)
+from app.middleware import ProcessTimeMiddleware
+from app.models import ServerMessageResponse, GenerateResponse, GenerateRequest
 
 from app.logger_utils import setup_logging
 
@@ -38,6 +49,7 @@ middleware = [
         allow_origins=["*"],
         allow_methods=["*"],
     ),
+    Middleware(ProcessTimeMiddleware),
 ]
 
 app = FastAPI(
@@ -81,11 +93,46 @@ async def upload_file(file: UploadFile):
 
 
 @app.post("/generate", status_code=200)
-async def generate():
+async def generate(request: GenerateRequest):
+    file_name, youtube_video_id = fetch_video_title(request.url)
+    if (
+        Path(f"/mock_storage/{youtube_video_id}_reel.mp4").is_file()
+        and Path(f"/mock_storage/{youtube_video_id}_reel.json").is_file()
+    ):
+        reel_video_path = f"/mock_storage/{youtube_video_id}_reel.mp4"
+        with open(f"/mock_storage/{youtube_video_id}_reel.json", mode="r") as json_file:
+            generated_response_dict = json.load(json_file)
+        generated_response = GenerateResponse(**generated_response_dict)
+
+    else:
+        video_id = await get_video_id_from_twelve_labs_index(file_name=file_name)
+        segment_itinerary = await generate_segment_itinerary(video_id=video_id)
+        parse_segment_itinerary = await parse_segment_itinerary_into_json(
+            segment_itinerary=segment_itinerary
+        )
+        segments_of_interest = await select_segments_of_interest(
+            segment_json=parse_segment_itinerary.get("itinerary"), video_url=request.url
+        )
+        reel_video_path = stitch_segments_into_single_video(
+            segments=segments_of_interest,
+            output_path=f"/mock_storage/{youtube_video_id}_reel.mp4",
+        )
+        generated_response = GenerateResponse(
+            title=file_name, itinerary=parse_segment_itinerary.get("itinerary")
+        )
+
+        with open(f"/mock_storage/{youtube_video_id}_reel.json", mode="w") as json_file:
+            json_file.write(generated_response.model_dump_json())
+    # reel_path = convert_video_to_reel(
+    #     video_path=reel_video_path,
+    #     output_path=f"/mock_storage/{youtube_video_id}_reel.mp4",
+    # )
+
     return {
-        "generate_response": GenerateResponse(),
-        "reel_file": FileResponse("reel.mp4", media_type="video/mp4"),
+        "generate_response": generated_response,
+        "reel_file": FileResponse(reel_video_path, media_type="video/mp4"),
     }
+    # return ServerMessageResponse(message=f"Worked")
 
 
 app.include_router(router)

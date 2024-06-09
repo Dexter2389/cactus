@@ -149,4 +149,3 @@ cython_debug/
 .vscode
 poetry.toml
 poetry.lock
-mock_cloud_storage/

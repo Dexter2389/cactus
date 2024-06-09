@@ -6,14 +6,16 @@ services:
     ports:
       - 8003:80
     volumes:
-      - ./app:/app
+      - ./backend/app:/app
       - ./mock_storage:/mock_storage
     networks:
       - cactus_net
     environment: &service_env
       WORKERS_PER_CORE: "${WORKERS_PER_CORE}"
       WEB_CONCURRENCY: "${WEB_CONCURRENCY}"
-
+      TWELVE_LABS_API_KEY: "${TWELVE_LABS_API_KEY}"
+      TWELVE_LABS_INDEX: "${TWELVE_LABS_INDEX}"
+      GEMINI_API_KEY: "${GEMINI_API_KEY}"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://web/health"]
       interval: 15s

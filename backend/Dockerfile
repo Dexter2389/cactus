@@ -6,7 +6,7 @@ ENV \
     PYTHONFAULTHANDLER=1 \
     DEBIAN_FRONTEND=noninteractive
 
-RUN apt update && apt -y install git libpq5 && rm -rf /var/lib/apt/lists/*
+RUN apt update && apt -y install build-essential git libpq5 ffmpeg libjpeg-dev zlib1g-dev && rm -rf /var/lib/apt/lists/*
 
 COPY pyproject.toml poetry.lock ./
 RUN pip install poetry==1.8.2
