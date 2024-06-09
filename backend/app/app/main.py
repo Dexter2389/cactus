@@ -6,7 +6,7 @@ import json
 from contextlib import asynccontextmanager
 
 from fastapi import APIRouter, FastAPI, UploadFile
-from fastapi.responses import JSONResponse, FileResponse
+from fastapi.responses import JSONResponse, FileResponse, StreamingResponse
 from starlette.middleware import Middleware
 from starlette.middleware.cors import CORSMiddleware
 
@@ -66,9 +66,7 @@ router = APIRouter(prefix="/api")
 # ENDPOINTS
 @app.get("/")
 async def get_version():
-    return JSONResponse(
-        {"version": f"{app.__version__}", "message": "Cactus Backend API"}
-    )
+    return JSONResponse({"version": "v0.1", "message": "Cactus Backend API"})
 
 
 @app.get("/health")
@@ -90,6 +88,11 @@ async def upload_file(file: UploadFile):
         await uploaded_file.write(file.file.read())
 
     return ServerMessageResponse(message=f"File uploaded successfully!")
+
+
+@app.get("/stream_file/{file_id}", response_class=FileResponse)
+async def stream_file(file_id: str):
+    return f"/mock_storage/{file_id}_reel.mp4"
 
 
 @app.post("/generate", status_code=200)
@@ -128,9 +131,13 @@ async def generate(request: GenerateRequest):
     #     output_path=f"/mock_storage/{youtube_video_id}_reel.mp4",
     # )
 
+    # return {
+    #     "generate_response": generated_response,
+    #     "reel_file_id": FileResponse(reel_video_path, media_type="video/mp4"),
+    # }
     return {
         "generate_response": generated_response,
-        "reel_file": FileResponse(reel_video_path, media_type="video/mp4"),
+        "reel_file_id": youtube_video_id,
     }
     # return ServerMessageResponse(message=f"Worked")
 
