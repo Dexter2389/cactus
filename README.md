@@ -1,3 +1,6 @@
+## Cactus: 
+The cutting-edge content generation platform using advanced multi-modal models from Twelve Labs to transform long-form YouTube videos into engaging short-form content automatically
+
 ## The Challenge
 Content creation is an exciting yet demanding field. For many creators, editing can be the most time-consuming part of the process. Crafting engaging short-form content from long-form videos often requires hours of meticulous work or significant financial investment in professional editing services. Current web tools offer some assistance, but there’s a glaring gap: no solution truly focuses on the seamless transition from long-form to short-form content.
 
