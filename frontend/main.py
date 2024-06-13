@@ -3,7 +3,6 @@ import asyncio
 import logging
 import aiofiles
 from pathlib import Path
-from streamlit_player import st_player
 from st_social_media_links import SocialMediaIcons
 import aiohttp
 import os
@@ -77,10 +76,22 @@ async def main():
 
                     if api_response:
                         with result_handler:
-                            st_player(
-                                url=f"{BASE_BACKEND_URL}/stream_file/{api_response.get('reel_file_id')}",
-                                height=500,
-                            )
+                            video_url = f"{BASE_BACKEND_URL}/stream_file/{api_response.get('reel_file_id')}"
+                            html_code = f"""
+                            <div style="width: 500px; height: 500px;">
+                                <iframe 
+                                    src="{video_url}" 
+                                    width="60%" 
+                                    height="100%" 
+                                    frameborder="0"
+                                    playbackRate="1.5"
+                                    allow="autoplay; encrypted-media" 
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                            """
+                            st.markdown(html_code, unsafe_allow_html=True)
+
                             generate_response_dict = api_response.get(
                                 "generate_response"
                             )
