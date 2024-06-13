@@ -17,11 +17,24 @@ services:
       TWELVE_LABS_INDEX: "${TWELVE_LABS_INDEX}"
       GEMINI_API_KEY: "${GEMINI_API_KEY}"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://web/health"]
+      test: ["CMD", "curl", "-f", "http://web_backend/health"]
       interval: 15s
       timeout: 5s
       retries: 3
       start_period: 1s
+
+  frontend:
+    build:
+      context: ./frontend
+      target: dev
+    ports:
+      - 8080:80
+    volumes:
+      - ./frontend/app:/app
+    networks:
+      - cactus_net
+    environment:
+      BASE_BACKEND_URL: "http://web_backend"
 
 networks:
   cactus_net:

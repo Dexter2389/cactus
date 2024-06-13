@@ -17,3 +17,7 @@ With Cactus, content creators can:
 We envision a world where content creators are empowered to produce high-quality short-form content effortlessly. Cactus is not just a tool; it's a game-changer that democratizes content creation, making it accessible and affordable for all creators, regardless of their resources.
 
 Join us on this journey to revolutionize content creation. With Cactus, the future of content is here—shorter, smarter, and more engaging than ever.
+
+## How to Run:
+- Make sure you have all the `.env` file that has all the fields populated as mentioned in `.env.sample`
+- docker compose up
